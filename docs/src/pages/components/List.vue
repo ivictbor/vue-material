@@ -55,6 +55,15 @@
                 <md-table-cell>Allow multiple items be expanded in same time (for lists with expansion items).</md-table-cell>
               </md-table-row>
             </md-table-body>
+
+            <md-table-body>
+              <md-table-row>
+                <md-table-cell>left-expand-indicator</md-table-cell>
+                <md-table-cell><code>Boolean</code></md-table-cell>
+                <md-table-cell>Place expand indicator arrow on left side of list item istead of right. Default <code>false</code></md-table-cell>
+              </md-table-row>
+            </md-table-body>
+            
           </md-table>
         </api-table>
 

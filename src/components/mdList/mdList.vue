@@ -15,6 +15,10 @@
       allowMultipleExpanded: {
         type: Boolean,
         default: false
+      },
+      leftExpandIndicator: {
+        type: Boolean,
+        default: false
       }
     }
   };
