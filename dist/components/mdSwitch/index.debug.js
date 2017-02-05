@@ -55,12 +55,66 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(97);
+	module.exports = __webpack_require__(99);
 
 
 /***/ },
 
 /***/ 1:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach((function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    }))
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 2:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -121,7 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 97:
+/***/ 99:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -131,11 +185,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = install;
 
-	var _mdSwitch = __webpack_require__(296);
+	var _mdSwitch = __webpack_require__(302);
 
 	var _mdSwitch2 = _interopRequireDefault(_mdSwitch);
 
-	var _mdSwitch3 = __webpack_require__(243);
+	var _mdSwitch3 = __webpack_require__(248);
 
 	var _mdSwitch4 = _interopRequireDefault(_mdSwitch3);
 
@@ -150,7 +204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 150:
+/***/ 153:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -159,7 +213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _mixin = __webpack_require__(1);
+	var _mixin = __webpack_require__(2);
 
 	var _mixin2 = _interopRequireDefault(_mixin);
 
@@ -231,9 +285,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.leftPos = this.checked ? checkedPosition + '%' : initialPosition;
 	    },
 	    changeState: function changeState(checked, $event) {
-	      this.checked = checked;
-	      this.$emit('change', this.checked, $event);
-	      this.$emit('input', this.checked, $event);
+	      if ($event !== undefined) {
+	        // $event is not undefined when changeState called from toggle (user click)
+	        this.$emit('change', $event); //call emit so user's code will receive onchange
+	        // first argument passed as $event variable in onchange context
+
+	        if (!$event.defaultPrevented) {
+	          // in handler user may prevent default by calling $event.preventDefault so we
+	          // don't need to do actual change state in this case
+	          this.checked = checked;
+	        }
+	        this.$emit('input', this.checked, $event);
+	      } else {
+	        // $event is undefined when changeState called from value watch
+	        // in this case we only need to update the state
+	        this.checked = checked;
+	      }
 	    },
 	    toggle: function toggle($event) {
 	      if (!this.disabled) {
@@ -249,48 +316,40 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 210:
+/***/ 217:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 243:
+/***/ 248:
 /***/ function(module, exports) {
 
 	module.exports = ".THEME_NAME.md-switch.md-checked .md-switch-container {\n  background-color: ACCENT-COLOR-500-0.5; }\n\n.THEME_NAME.md-switch.md-checked .md-switch-thumb {\n  background-color: ACCENT-COLOR; }\n\n.THEME_NAME.md-switch.md-checked .md-ink-ripple {\n  color: ACCENT-COLOR; }\n\n.THEME_NAME.md-switch.md-checked .md-ripple {\n  opacity: .38; }\n\n.THEME_NAME.md-switch.md-checked.md-primary .md-switch-container {\n  background-color: PRIMARY-COLOR-500-0.5; }\n\n.THEME_NAME.md-switch.md-checked.md-primary .md-switch-thumb {\n  background-color: PRIMARY-COLOR; }\n\n.THEME_NAME.md-switch.md-checked.md-primary .md-ink-ripple {\n  color: PRIMARY-COLOR; }\n\n.THEME_NAME.md-switch.md-checked.md-warn .md-switch-container {\n  background-color: WARN-COLOR-500-0.5; }\n\n.THEME_NAME.md-switch.md-checked.md-warn .md-switch-thumb {\n  background-color: WARN-COLOR; }\n\n.THEME_NAME.md-switch.md-checked.md-warn .md-ink-ripple {\n  color: WARN-COLOR; }\n\n.THEME_NAME.md-switch.md-disabled .md-switch-container, .THEME_NAME.md-switch.md-disabled.md-checked .md-switch-container {\n  background-color: rgba(0, 0, 0, 0.12); }\n\n.THEME_NAME.md-switch.md-disabled .md-switch-thumb, .THEME_NAME.md-switch.md-disabled.md-checked .md-switch-thumb {\n  background-color: #bdbdbd; }\n"
 
 /***/ },
 
-/***/ 296:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
+	
 	/* styles */
-	__webpack_require__(210)
+	__webpack_require__(217)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(150)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(352)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some((function (key) { return key !== "default" && key !== "__esModule" }))) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/marcosmoura/Projects/github/vue-material/src/components/mdSwitch/mdSwitch.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	var Component = __webpack_require__(1)(
+	  /* script */
+	  __webpack_require__(153),
+	  /* template */
+	  __webpack_require__(367),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
+	Component.options.__file = "D:\\av\\vue-material\\src\\components\\mdSwitch\\mdSwitch.vue"
+	if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key !== "__esModule"}))) {console.error("named exports are not supported in *.vue files.")}
+	if (Component.options.functional) {console.error("[vue-loader] mdSwitch.vue: functional components are not supported with templates, they should use render functions.")}
 
 	/* hot reload */
 	if (false) {(function () {
@@ -299,19 +358,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-7e05ff26", __vue_options__)
+	    hotAPI.createRecord("data-v-7c623fe4", Component.options)
 	  } else {
-	    hotAPI.reload("data-v-7e05ff26", __vue_options__)
+	    hotAPI.reload("data-v-7c623fe4", Component.options)
 	  }
 	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] mdSwitch.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 352:
+/***/ 367:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -358,7 +416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-7e05ff26", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-7c623fe4", module.exports)
 	  }
 	}
 

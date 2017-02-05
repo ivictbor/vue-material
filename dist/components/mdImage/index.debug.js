@@ -55,52 +55,106 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(84);
+	module.exports = __webpack_require__(85);
 
 
 /***/ },
 
-/***/ 66:
+/***/ 1:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach((function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    }))
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 67:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	var getImageLightness = function getImageLightness(image, onLoad) {
-	  var canvas = document.createElement('canvas');
+	    var canvas = document.createElement('canvas');
 
-	  image.onload = function () {
-	    var colorSum = 0;
-	    var ctx = void 0;
-	    var imageData = void 0;
-	    var imageMetadata = void 0;
-	    var r = void 0;
-	    var g = void 0;
-	    var b = void 0;
-	    var average = void 0;
+	    image.onload = function () {
+	        var colorSum = 0;
+	        var ctx = void 0;
+	        var imageData = void 0;
+	        var imageMetadata = void 0;
+	        var r = void 0;
+	        var g = void 0;
+	        var b = void 0;
+	        var average = void 0;
 
-	    canvas.width = this.width;
-	    canvas.height = this.height;
-	    ctx = canvas.getContext('2d');
+	        canvas.width = this.width;
+	        canvas.height = this.height;
+	        ctx = canvas.getContext('2d');
 
-	    ctx.drawImage(this, 0, 0);
+	        ctx.drawImage(this, 0, 0);
 
-	    imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-	    imageMetadata = imageData.data;
+	        imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	        imageMetadata = imageData.data;
 
-	    for (var x = 0, len = imageMetadata.length; x < len; x += 4) {
-	      r = imageMetadata[x];
-	      g = imageMetadata[x + 1];
-	      b = imageMetadata[x + 2];
+	        for (var x = 0, len = imageMetadata.length; x < len; x += 4) {
+	            r = imageMetadata[x];
+	            g = imageMetadata[x + 1];
+	            b = imageMetadata[x + 2];
 
-	      average = Math.floor((r + g + b) / 3);
-	      colorSum += average;
-	    }
+	            average = Math.floor((r + g + b) / 3);
+	            colorSum += average;
+	        }
 
-	    onLoad(Math.floor(colorSum / (this.width * this.height)));
-	  };
+	        onLoad(Math.floor(colorSum / (this.width * this.height)));
+	    };
 	};
 
 	exports.default = getImageLightness;
@@ -108,7 +162,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 84:
+/***/ 85:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -118,11 +172,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = install;
 
-	var _mdImage = __webpack_require__(277);
+	var _mdImage = __webpack_require__(282);
 
 	var _mdImage2 = _interopRequireDefault(_mdImage);
 
-	var _mdImage3 = __webpack_require__(232);
+	var _mdImage3 = __webpack_require__(236);
 
 	var _mdImage4 = _interopRequireDefault(_mdImage3);
 
@@ -137,7 +191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 131:
+/***/ 133:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -146,7 +200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _getImageLightness = __webpack_require__(66);
+	var _getImageLightness = __webpack_require__(67);
 
 	var _getImageLightness2 = _interopRequireDefault(_getImageLightness);
 
@@ -220,48 +274,40 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 199:
+/***/ 222:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 232:
+/***/ 236:
 /***/ function(module, exports) {
 
 	module.exports = ""
 
 /***/ },
 
-/***/ 277:
+/***/ 282:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
+	
 	/* styles */
-	__webpack_require__(199)
+	__webpack_require__(222)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(131)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(329)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some((function (key) { return key !== "default" && key !== "__esModule" }))) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/marcosmoura/Projects/github/vue-material/src/components/mdImage/mdImage.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	var Component = __webpack_require__(1)(
+	  /* script */
+	  __webpack_require__(133),
+	  /* template */
+	  __webpack_require__(373),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
+	Component.options.__file = "D:\\av\\vue-material\\src\\components\\mdImage\\mdImage.vue"
+	if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key !== "__esModule"}))) {console.error("named exports are not supported in *.vue files.")}
+	if (Component.options.functional) {console.error("[vue-loader] mdImage.vue: functional components are not supported with templates, they should use render functions.")}
 
 	/* hot reload */
 	if (false) {(function () {
@@ -270,19 +316,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-2bb54057", __vue_options__)
+	    hotAPI.createRecord("data-v-b0fc1ce4", Component.options)
 	  } else {
-	    hotAPI.reload("data-v-2bb54057", __vue_options__)
+	    hotAPI.reload("data-v-b0fc1ce4", Component.options)
 	  }
 	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] mdImage.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 329:
+/***/ 373:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -298,7 +343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-2bb54057", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-b0fc1ce4", module.exports)
 	  }
 	}
 

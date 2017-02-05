@@ -7,7 +7,7 @@
 		exports["VueMaterial"] = factory(require("vue"));
 	else
 		root["VueMaterial"] = factory(root["Vue"]);
-})(this, (function(__WEBPACK_EXTERNAL_MODULE_374__) {
+})(this, (function(__WEBPACK_EXTERNAL_MODULE_381__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -55,12 +55,66 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(93);
+	module.exports = __webpack_require__(94);
 
 
 /***/ },
 
 /***/ 1:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach((function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    }))
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 2:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -121,7 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 38:
+/***/ 39:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -150,7 +204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 43:
+/***/ 45:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -167,7 +221,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 93:
+/***/ 94:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -177,11 +231,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = install;
 
-	var _mdSnackbar = __webpack_require__(293);
+	var _mdSnackbar = __webpack_require__(298);
 
 	var _mdSnackbar2 = _interopRequireDefault(_mdSnackbar);
 
-	var _mdSnackbar3 = __webpack_require__(240);
+	var _mdSnackbar3 = __webpack_require__(244);
 
 	var _mdSnackbar4 = _interopRequireDefault(_mdSnackbar3);
 
@@ -196,7 +250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 94:
+/***/ 95:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -205,7 +259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _vue = __webpack_require__(374);
+	var _vue = __webpack_require__(381);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -224,7 +278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 147:
+/***/ 149:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -233,19 +287,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _uniqueId = __webpack_require__(43);
+	var _uniqueId = __webpack_require__(45);
 
 	var _uniqueId2 = _interopRequireDefault(_uniqueId);
 
-	var _transitionEndEventName = __webpack_require__(38);
+	var _transitionEndEventName = __webpack_require__(39);
 
 	var _transitionEndEventName2 = _interopRequireDefault(_transitionEndEventName);
 
-	var _mixin = __webpack_require__(1);
+	var _mixin = __webpack_require__(2);
 
 	var _mixin2 = _interopRequireDefault(_mixin);
 
-	var _manager = __webpack_require__(94);
+	var _manager = __webpack_require__(95);
 
 	var _manager2 = _interopRequireDefault(_manager);
 
@@ -317,14 +371,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  methods: {
 	    removeElement: function removeElement() {
-	      if (this.rootElement.contains(this.snackbarElement)) {
+	      if (document.body.contains(this.snackbarElement)) {
 	        var activeRipple = this.snackbarElement.querySelector('.md-ripple.md-active');
 
 	        if (activeRipple) {
 	          activeRipple.classList.remove('md-active');
 	        }
 
-	        this.rootElement.removeChild(this.snackbarElement);
+	        document.body.removeChild(this.snackbarElement);
 	      }
 	    },
 	    open: function open() {
@@ -333,7 +387,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      _manager2.default.current = this;
-	      this.rootElement.appendChild(this.snackbarElement);
+	      document.body.appendChild(this.snackbarElement);
 	      window.getComputedStyle(this.$refs.container).backgroundColor;
 	      this.active = true;
 	      this.$emit('open');
@@ -363,7 +417,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this2 = this;
 
 	    this.$nextTick((function () {
-	      _this2.rootElement = _this2.$root.$el;
 	      _this2.snackbarElement = _this2.$el;
 	      _this2.snackbarElement.parentNode.removeChild(_this2.snackbarElement);
 	    }));
@@ -377,48 +430,40 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 216:
+/***/ 223:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 240:
+/***/ 244:
 /***/ function(module, exports) {
 
 	module.exports = ".THEME_NAME .md-snackbar .md-ink-ripple, .THEME_NAME.md-snackbar .md-ink-ripple {\n  color: #fff; }\n"
 
 /***/ },
 
-/***/ 293:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
+	
 	/* styles */
-	__webpack_require__(216)
+	__webpack_require__(223)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(147)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(362)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some((function (key) { return key !== "default" && key !== "__esModule" }))) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/marcosmoura/Projects/github/vue-material/src/components/mdSnackbar/mdSnackbar.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	var Component = __webpack_require__(1)(
+	  /* script */
+	  __webpack_require__(149),
+	  /* template */
+	  __webpack_require__(374),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
+	Component.options.__file = "D:\\av\\vue-material\\src\\components\\mdSnackbar\\mdSnackbar.vue"
+	if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key !== "__esModule"}))) {console.error("named exports are not supported in *.vue files.")}
+	if (Component.options.functional) {console.error("[vue-loader] mdSnackbar.vue: functional components are not supported with templates, they should use render functions.")}
 
 	/* hot reload */
 	if (false) {(function () {
@@ -427,19 +472,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-b540e066", __vue_options__)
+	    hotAPI.createRecord("data-v-b6cb8878", Component.options)
 	  } else {
-	    hotAPI.reload("data-v-b540e066", __vue_options__)
+	    hotAPI.reload("data-v-b6cb8878", Component.options)
 	  }
 	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] mdSnackbar.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 362:
+/***/ 374:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -460,16 +504,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-b540e066", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-b6cb8878", module.exports)
 	  }
 	}
 
 /***/ },
 
-/***/ 374:
+/***/ 381:
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_374__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_381__;
 
 /***/ }
 

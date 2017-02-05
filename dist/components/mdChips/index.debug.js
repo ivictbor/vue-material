@@ -55,12 +55,66 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(79);
+	module.exports = __webpack_require__(80);
 
 
 /***/ },
 
 /***/ 1:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach((function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    }))
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 2:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -121,7 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 43:
+/***/ 45:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -138,7 +192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 79:
+/***/ 80:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -148,15 +202,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = install;
 
-	var _mdChips = __webpack_require__(266);
+	var _mdChips = __webpack_require__(271);
 
 	var _mdChips2 = _interopRequireDefault(_mdChips);
 
-	var _mdChip = __webpack_require__(265);
+	var _mdChip = __webpack_require__(270);
 
 	var _mdChip2 = _interopRequireDefault(_mdChip);
 
-	var _mdChips3 = __webpack_require__(228);
+	var _mdChips3 = __webpack_require__(232);
 
 	var _mdChips4 = _interopRequireDefault(_mdChips3);
 
@@ -172,7 +226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 123:
+/***/ 125:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -181,7 +235,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _mixin = __webpack_require__(1);
+	var _mixin = __webpack_require__(2);
 
 	var _mixin2 = _interopRequireDefault(_mixin);
 
@@ -221,7 +275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 124:
+/***/ 126:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -230,11 +284,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _mixin = __webpack_require__(1);
+	var _mixin = __webpack_require__(2);
 
 	var _mixin2 = _interopRequireDefault(_mixin);
 
-	var _uniqueId = __webpack_require__(43);
+	var _uniqueId = __webpack_require__(45);
 
 	var _uniqueId2 = _interopRequireDefault(_uniqueId);
 
@@ -319,7 +373,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.$refs.input.$el.focus();
 	      }));
 	    },
-	    selectChip: function selectChip() {
+	    addChip: function addChip() {
 	      if (this.currentChip && this.selectedChips.length < this.mdMax) {
 	        var value = this.currentChip.trim();
 
@@ -355,45 +409,36 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 202:
+/***/ 212:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 228:
+/***/ 232:
 /***/ function(module, exports) {
 
 	module.exports = ".THEME_NAME.md-chip {\n  background-color: BACKGROUND-CONTRAST-0.12; }\n  .THEME_NAME.md-chip.md-deletable:hover, .THEME_NAME.md-chip.md-deletable:focus {\n    background-color: BACKGROUND-CONTRAST-0.54;\n    color: BACKGROUND-COLOR; }\n    .THEME_NAME.md-chip.md-deletable:hover .md-delete, .THEME_NAME.md-chip.md-deletable:focus .md-delete {\n      color: BACKGROUND-COLOR; }\n  .THEME_NAME.md-chip .md-delete {\n    color: BACKGROUND-CONTRAST-0.38; }\n    .THEME_NAME.md-chip .md-delete .md-ripple {\n      color: BACKGROUND-COLOR; }\n"
 
 /***/ },
 
-/***/ 265:
+/***/ 270:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
-	/* script */
-	__vue_exports__ = __webpack_require__(123)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(326)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some((function (key) { return key !== "default" && key !== "__esModule" }))) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/marcosmoura/Projects/github/vue-material/src/components/mdChips/mdChip.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	var Component = __webpack_require__(1)(
+	  /* script */
+	  __webpack_require__(125),
+	  /* template */
+	  __webpack_require__(339),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
+	Component.options.__file = "D:\\av\\vue-material\\src\\components\\mdChips\\mdChip.vue"
+	if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key !== "__esModule"}))) {console.error("named exports are not supported in *.vue files.")}
+	if (Component.options.functional) {console.error("[vue-loader] mdChip.vue: functional components are not supported with templates, they should use render functions.")}
 
 	/* hot reload */
 	if (false) {(function () {
@@ -402,46 +447,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-23449298", __vue_options__)
+	    hotAPI.createRecord("data-v-2c2a829d", Component.options)
 	  } else {
-	    hotAPI.reload("data-v-23449298", __vue_options__)
+	    hotAPI.reload("data-v-2c2a829d", Component.options)
 	  }
 	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] mdChip.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 266:
+/***/ 271:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
+	
 	/* styles */
-	__webpack_require__(202)
+	__webpack_require__(212)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(124)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(334)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some((function (key) { return key !== "default" && key !== "__esModule" }))) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/marcosmoura/Projects/github/vue-material/src/components/mdChips/mdChips.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	var Component = __webpack_require__(1)(
+	  /* script */
+	  __webpack_require__(126),
+	  /* template */
+	  __webpack_require__(353),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
+	Component.options.__file = "D:\\av\\vue-material\\src\\components\\mdChips\\mdChips.vue"
+	if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key !== "__esModule"}))) {console.error("named exports are not supported in *.vue files.")}
+	if (Component.options.functional) {console.error("[vue-loader] mdChips.vue: functional components are not supported with templates, they should use render functions.")}
 
 	/* hot reload */
 	if (false) {(function () {
@@ -450,19 +486,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-3df67e22", __vue_options__)
+	    hotAPI.createRecord("data-v-5cd17226", Component.options)
 	  } else {
-	    hotAPI.reload("data-v-3df67e22", __vue_options__)
+	    hotAPI.reload("data-v-5cd17226", Component.options)
 	  }
 	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] mdChips.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 326:
+/***/ 339:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -494,13 +529,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-23449298", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-2c2a829d", module.exports)
 	  }
 	}
 
 /***/ },
 
-/***/ 334:
+/***/ 353:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -562,10 +597,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _vm.deleteLastChip($event)
 	      }, function($event) {
 	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
-	        _vm.selectChip($event)
+	        $event.preventDefault();
+	        _vm.addChip($event)
 	      }, function($event) {
 	        if ($event.keyCode !== 186) { return; }
-	        _vm.selectChip($event)
+	        $event.preventDefault();
+	        _vm.addChip($event)
 	      }]
 	    }
 	  })], 2)], 1)
@@ -574,7 +611,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-3df67e22", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-5cd17226", module.exports)
 	  }
 	}
 
